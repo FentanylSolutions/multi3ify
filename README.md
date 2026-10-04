@@ -7,7 +7,7 @@ Prism metadata for Minecraft 1.7.10 with [lwjgl3ify](https://github.com/GTNewHor
 1. Set **Settings -> APIs -> Services -> Metadata Server** to:
 
    ```text
-   https://jackofnonetrades.github.io/multi3ify/v1/
+   https://fentanylsolutions.github.io/multi3ify/v1/
    ```
 
    Or more memorable:
