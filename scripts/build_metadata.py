@@ -7,8 +7,10 @@ Python 3.11+, JDK 17+, and no third-party Python dependencies are required.
 import argparse
 import copy
 import hashlib
+import http.client
 import io
 import json
+import logging
 import os
 from pathlib import Path
 import re
@@ -108,9 +110,12 @@ def fetch(url):
         try:
             with urllib.request.urlopen(urllib.request.Request(url, headers=headers), timeout=90) as response:
                 return response.read()
-        except (urllib.error.URLError, TimeoutError):
+        except (urllib.error.URLError, TimeoutError, http.client.IncompleteRead) as error:
             if attempt == 3:
+                error.add_note(f"Failed to fetch {url} after {attempt + 1} attempts")
                 raise
+            logging.warning("Download failed for %s (attempt %s/4): %s; retrying in %ss",
+                            url, attempt + 1, error, 2 ** attempt)
             time.sleep(2 ** attempt)
 
 
